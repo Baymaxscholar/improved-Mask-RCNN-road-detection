@@ -19,6 +19,46 @@ model = dict(
 
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
+albu_train_transforms = [
+    dict(
+        type='ShiftScaleRotate',
+        shift_limit=0.0625,
+        scale_limit=0.0,
+        rotate_limit=180,
+        interpolation=1,
+        p=0.5),
+    dict(
+        type='RandomBrightnessContrast',
+        brightness_limit=[0.1, 0.3],
+        contrast_limit=[0.1, 0.3],
+        p=0.2),
+    dict(
+        type='OneOf',
+        transforms=[
+            dict(
+                type='RGBShift',
+                r_shift_limit=10,
+                g_shift_limit=10,
+                b_shift_limit=10,
+                p=1.0),
+            dict(
+                type='HueSaturationValue',
+                hue_shift_limit=20,
+                sat_shift_limit=30,
+                val_shift_limit=20,
+                p=1.0)
+        ],
+        p=0.1),
+    dict(type='JpegCompression', quality_lower=85, quality_upper=95, p=0.2),
+    dict(type='ChannelShuffle', p=0.1),
+    dict(
+        type='OneOf',
+        transforms=[
+            dict(type='Blur', blur_limit=3, p=1.0),
+            dict(type='MedianBlur', blur_limit=3, p=1.0)
+        ],
+        p=0.1),
+]
 
 # augmentation strategy originates from DETR / Sparse RCNN
 train_pipeline = [
@@ -29,15 +69,13 @@ train_pipeline = [
          policies=[
              [
                  dict(type='Resize',
-                      img_scale=[(480, 1333), (512, 1333), (544, 1333), (576, 1333),
-                                 (608, 1333), (640, 1333), (672, 1333), (704, 1333),
-                                 (736, 1333), (768, 1333), (800, 1333)],
+                      img_scale=[(512, 512)],
                       multiscale_mode='value',
                       keep_ratio=True)
              ],
              [
                  dict(type='Resize',
-                      img_scale=[(400, 1333), (500, 1333), (600, 1333)],
+                      img_scale=[(512, 512)],
                       multiscale_mode='value',
                       keep_ratio=True),
                  dict(type='RandomCrop',
@@ -45,10 +83,7 @@ train_pipeline = [
                       crop_size=(384, 600),
                       allow_negative_crop=True),
                  dict(type='Resize',
-                      img_scale=[(480, 1333), (512, 1333), (544, 1333),
-                                 (576, 1333), (608, 1333), (640, 1333),
-                                 (672, 1333), (704, 1333), (736, 1333),
-                                 (768, 1333), (800, 1333)],
+                      img_scale=[(512, 512)],
                       multiscale_mode='value',
                       override=True,
                       keep_ratio=True)

@@ -43,9 +43,6 @@ python tools/test.py configs/swin/mask_rcnn_swin_tiny_patch4_window7_mstrain_480
 log analysis：
 python tools/analysis_tools/analyze_logs.py plot_curve work_dirs/mask_rcnn_swin_tiny_patch4_window7_mstrain_480-800_adamw_1x_coco/20211226_093405.log.json
 
-iou value：
-python PR.py
-
 View data augmentation:
 python .\tools\misc\browse_dataset.py configs/dynamic_rcnn/dynamic_rcnn_r50_fpn_1x.py
 map

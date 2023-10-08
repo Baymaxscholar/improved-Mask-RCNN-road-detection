@@ -1,4 +1,5 @@
-_base_ = '../faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py'
+#_base_ = '../faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py'
+_base_ ='../swin/mask_rcnn_swin_small_patch4_window7_mstrain_480-800_adamw_3x_coco.py'
 model = dict(
     roi_head=dict(
         type='DynamicRoIHead',

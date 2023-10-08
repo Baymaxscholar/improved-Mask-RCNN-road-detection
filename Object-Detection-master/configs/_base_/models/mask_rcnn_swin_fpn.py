@@ -19,7 +19,7 @@ model = dict(
         out_indices=(0, 1, 2, 3),
         use_checkpoint=False),
     neck=dict(
-        type='FPN',
+        type='PAFPN',
         in_channels=[96, 192, 384, 768],
         out_channels=256,
         num_outs=5),
@@ -51,7 +51,7 @@ model = dict(
             in_channels=256,
             fc_out_channels=1024,
             roi_feat_size=7,
-            num_classes=80,
+            num_classes=5,
             bbox_coder=dict(
                 type='DeltaXYWHBBoxCoder',
                 target_means=[0., 0., 0., 0.],
@@ -70,7 +70,7 @@ model = dict(
             num_convs=4,
             in_channels=256,
             conv_out_channels=256,
-            num_classes=80,
+            num_classes=5,
             loss_mask=dict(
                 type='CrossEntropyLoss', use_mask=True, loss_weight=1.0))),
     # model training and testing settings
